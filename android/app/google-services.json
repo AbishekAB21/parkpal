@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "46664717586",
+    "project_id": "parkpal-37248",
+    "storage_bucket": "parkpal-37248.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:46664717586:android:96d9a801fb634d95914fcb",
+        "android_client_info": {
+          "package_name": "com.example.parkpal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC47KtQIsMt_wSw1KsrVq2Ip65taFLvyP4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
