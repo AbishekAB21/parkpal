@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:parkpal/screens/home-screen.dart';
 import 'package:parkpal/screens/login-screen.dart';
+import 'package:parkpal/widgets/bottom-nav.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -14,7 +14,7 @@ class AuthPage extends StatelessWidget {
         builder: (context, snapshot) {
           
           if(snapshot.hasData){
-            return BottomAppBar();
+            return BottomNavBar();
           }
 
           else{

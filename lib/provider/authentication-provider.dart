@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:parkpal/screens/home-screen.dart';
 import 'package:parkpal/screens/login-screen.dart';
 import 'package:parkpal/utils/app-colors.dart';
+import 'package:parkpal/widgets/bottom-nav.dart';
 import 'package:parkpal/widgets/reusable-snackbar.dart';
 
 class AuthenticationProvider with ChangeNotifier {
@@ -29,7 +29,7 @@ class AuthenticationProvider with ChangeNotifier {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => HomeScreen(),
+            builder: (context) => BottomNavBar(),
           ));
       ReusableSnackbar()
           .showSnackbar(context, "Signed in successfully!", appcolor.successColor);
