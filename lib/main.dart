@@ -2,9 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:parkpal/provider/authentication-provider.dart';
 import 'package:parkpal/provider/bottom-nav-provider.dart';
-import 'package:parkpal/screens/detail-screen.dart';
+import 'package:parkpal/provider/slot-provider.dart';
 import 'package:parkpal/screens/splash-screen.dart';
-import 'package:parkpal/widgets/bottom-nav.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -17,7 +16,8 @@ void main() async {
       ),
       ChangeNotifierProvider(
         create: (context) => BottomNavProvider(),
-      )
+      ),
+      ChangeNotifierProvider(create: (context) => SlotProvider(),)
     ],
     child: const MyApp(),
   ));
