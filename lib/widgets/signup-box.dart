@@ -4,9 +4,9 @@ import 'package:parkpal/screens/login-screen.dart';
 import 'package:parkpal/utils/app-colors.dart';
 import 'package:parkpal/utils/fontstyles.dart';
 import 'package:parkpal/widgets/reusable-button.dart';
+import 'package:parkpal/widgets/reusable-snackbar.dart';
 import 'package:parkpal/widgets/reusable-textfield.dart';
 import 'package:provider/provider.dart';
-
 
 class SignUpBox extends StatelessWidget {
   const SignUpBox({super.key});
@@ -65,9 +65,23 @@ class SignUpBox extends StatelessWidget {
             SizedBox(
               height: 30,
             ),
-            ReusableButton(title: "Create Account", ontap: () {
-               authProvider.signUpUser(emailController.text, passwordController.text, context);
-            }),
+            ReusableButton(
+                title: "Create Account",
+                ontap: () {
+                  if (passwordController.text ==
+                      confirmPasswordController.text) {
+                    authProvider.signUpUser(
+                        emailController.text, passwordController.text, context);
+                    emailController.clear();
+                    passwordController.clear();
+                    confirmPasswordController.clear();
+                    ReusableSnackbar().showSnackbar(
+                        context, "Account created!", appcolor.successColor);
+                  } else {
+                    ReusableSnackbar().showSnackbar(
+                        context, "Passwords don't match", appcolor.errorColor);
+                  }
+                }),
 
             // Divider
             SizedBox(

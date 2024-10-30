@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:parkpal/screens/home-screen.dart';
 import 'package:parkpal/screens/login-screen.dart';
+import 'package:parkpal/utils/app-colors.dart';
+import 'package:parkpal/widgets/reusable-snackbar.dart';
 
 class AuthenticationProvider with ChangeNotifier {
   final _auth = FirebaseAuth.instance;
@@ -14,6 +16,8 @@ class AuthenticationProvider with ChangeNotifier {
           email: email, password: password);
     } catch (e) {
       print(e);
+      ReusableSnackbar()
+          .showSnackbar(context, "Error creating account", appcolor.errorColor);
     }
   }
 
@@ -27,8 +31,12 @@ class AuthenticationProvider with ChangeNotifier {
           MaterialPageRoute(
             builder: (context) => HomeScreen(),
           ));
+      ReusableSnackbar()
+          .showSnackbar(context, "Signed in successfully!", appcolor.successColor);
     } catch (e) {
       print(e);
+      ReusableSnackbar()
+          .showSnackbar(context, "Error signing in", appcolor.errorColor);
     }
   }
 
@@ -43,6 +51,8 @@ class AuthenticationProvider with ChangeNotifier {
           ));
     } catch (e) {
       print(e);
+      ReusableSnackbar()
+          .showSnackbar(context, "Error signing out", appcolor.errorColor);
     }
   }
 }
