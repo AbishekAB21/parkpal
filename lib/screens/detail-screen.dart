@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:parkpal/provider/slot-provider.dart';
 import 'package:parkpal/utils/app-colors.dart';
 import 'package:parkpal/utils/fontstyles.dart';
+import 'package:parkpal/widgets/reusable-buttonII.dart';
 import 'package:parkpal/widgets/slot-container.dart';
 import 'package:provider/provider.dart';
 
@@ -106,19 +107,7 @@ class DetailScreen extends StatelessWidget {
         bottomNavigationBar: BottomAppBar(
           color: appcolor.backgroundColor,
           child: Center(
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: appcolor.successColor),
-              child: Center(
-                child: Text(
-                  "Pay \$${slotProvider.price} and Book",
-                  style: Fontstyles.ButtonTextLarge(context),
-                ),
-              ),
-            ),
+            child: ReusableButtonII(price: "${slotProvider.price}", ontap: (){})
           ),
         ),
       ),
