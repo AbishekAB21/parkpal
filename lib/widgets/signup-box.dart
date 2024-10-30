@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:parkpal/provider/authentication-provider.dart';
 import 'package:parkpal/screens/login-screen.dart';
 import 'package:parkpal/utils/app-colors.dart';
 import 'package:parkpal/utils/fontstyles.dart';
 import 'package:parkpal/widgets/reusable-button.dart';
 import 'package:parkpal/widgets/reusable-textfield.dart';
+import 'package:provider/provider.dart';
 
 
 class SignUpBox extends StatelessWidget {
@@ -15,7 +17,7 @@ class SignUpBox extends StatelessWidget {
     TextEditingController passwordController = TextEditingController();
     TextEditingController confirmPasswordController = TextEditingController();
 
-    // final authProvider = Provider.of<AuthenticationProvider>(context);
+    final authProvider = Provider.of<AuthenticationProvider>(context);
     return Material(
       elevation: 3,
       borderRadius: BorderRadius.circular(20),
@@ -64,7 +66,7 @@ class SignUpBox extends StatelessWidget {
               height: 30,
             ),
             ReusableButton(title: "Create Account", ontap: () {
-              // authProvider.signin(emailController.text, passwordController.text, context);
+               authProvider.signUpUser(emailController.text, passwordController.text, context);
             }),
 
             // Divider

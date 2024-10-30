@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:parkpal/provider/authentication-provider.dart';
 import 'package:parkpal/screens/signup-screen.dart';
 import 'package:parkpal/utils/app-colors.dart';
 import 'package:parkpal/utils/fontstyles.dart';
 import 'package:parkpal/widgets/reusable-button.dart';
 import 'package:parkpal/widgets/reusable-textfield.dart';
+import 'package:provider/provider.dart';
 
 
 class LogInBox extends StatelessWidget {
@@ -14,7 +16,7 @@ class LogInBox extends StatelessWidget {
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
 
-    // final authProvider = Provider.of<AuthenticationProvider>(context);
+     final authProvider = Provider.of<AuthenticationProvider>(context);
     return Material(
       elevation: 3,
       borderRadius: BorderRadius.circular(20),
@@ -55,7 +57,7 @@ class LogInBox extends StatelessWidget {
               height: 30,
             ),
             ReusableButton(title: "Sign in", ontap: () {
-              // authProvider.signin(emailController.text, passwordController.text, context);
+               authProvider.signInUser(emailController.text, passwordController.text, context);
             }),
 
             // Divider
