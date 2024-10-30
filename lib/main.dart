@@ -1,7 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:parkpal/provider/authentication-provider.dart';
-import 'package:parkpal/screens/splash-screen.dart';
+import 'package:parkpal/provider/bottom-nav-provider.dart';
+import 'package:parkpal/widgets/bottom-nav.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -11,6 +12,9 @@ void main() async {
     providers: [
       ChangeNotifierProvider(
         create: (context) => AuthenticationProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => BottomNavProvider(),
       )
     ],
     child: const MyApp(),
@@ -22,6 +26,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: SplashScreen());
+    return MaterialApp(debugShowCheckedModeBanner: false, home: BottomNavBar());
   }
 }

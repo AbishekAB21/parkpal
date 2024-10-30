@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:parkpal/functions/auth-page.dart';
-import 'package:parkpal/screens/login-screen.dart';
 import 'package:parkpal/utils/app-colors.dart';
 import 'package:parkpal/utils/fontstyles.dart';
 

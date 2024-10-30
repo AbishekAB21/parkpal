@@ -41,7 +41,7 @@ class AppDefaultColor extends AppColor {
       : super(
           primaryColor: Colors.white,
           secondaryColor: Colors.grey,
-          teritiaryColor: Colors.grey.shade300,
+          teritiaryColor: Colors.grey.shade400,
           textfieldColor: Colors.grey[850]!,
           backgroundColor: Colors.grey.shade200,
           unselectedColor: Colors.grey.shade500,
