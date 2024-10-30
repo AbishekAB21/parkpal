@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:parkpal/provider/authentication-provider.dart';
 import 'package:parkpal/utils/app-colors.dart';
 import 'package:parkpal/utils/fontstyles.dart';
 import 'package:parkpal/widgets/parking-slot-builder.dart';
 import 'package:parkpal/widgets/search-box.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final _auth = Provider.of<AuthenticationProvider>(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: appcolor.backgroundColor,

@@ -73,6 +73,15 @@ class Fontstyles{
     );
   }
 
+  static TextStyle HeadlineStyle0(BuildContext context){
+
+    return TextStyle(
+      fontFamily: 'Poppins',
+      fontSize: 30,
+      fontWeight: FontWeight.w600
+    );
+  }
+
   static TextStyle HeadlineStyle1(BuildContext context){
 
     return TextStyle(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parkpal/screens/detail-screen.dart';
 import 'package:parkpal/utils/app-colors.dart';
 import 'package:parkpal/utils/fontstyles.dart';
 
@@ -7,14 +8,22 @@ class SlotBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DetailScreen(),
+            ));
+      },
+      child: Material(
         elevation: 2,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(5),
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 5),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: appcolor.primaryColor),
+              borderRadius: BorderRadius.circular(5),
+              color: appcolor.secondaryColor),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -32,7 +41,7 @@ class SlotBuilder extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Text(
-                 "A-15",
+                  "A-15",
                   style: Fontstyles.ContentTextStyle(context),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -43,6 +52,7 @@ class SlotBuilder extends StatelessWidget {
             ],
           ),
         ),
-      );
+      ),
+    );
   }
 }
