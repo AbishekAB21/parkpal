@@ -128,6 +128,16 @@ class Fontstyles{
     );
   }
 
+  static TextStyle ButtonText3(BuildContext context){
+
+    return TextStyle(
+      fontFamily: 'Poppins',
+      fontSize: 12,
+      color: Colors.white,
+      fontWeight: FontWeight.bold
+    );
+  }
+
   static TextStyle ButtonText2(BuildContext context){
 
     return TextStyle(
