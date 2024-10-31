@@ -20,7 +20,7 @@ class SlotBuilder extends StatelessWidget {
                 context, "Uh-oh! slot not available!", appcolor.errorColor)
             : Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => DetailScreen()),
+                MaterialPageRoute(builder: (context) => DetailScreen(slotName: slotName,)),
               );
       },
       child: Material(

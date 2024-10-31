@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parkpal/provider/database-provider.dart';
 import 'package:parkpal/provider/slot-provider.dart';
 import 'package:parkpal/utils/app-colors.dart';
 import 'package:parkpal/utils/fontstyles.dart';
@@ -7,11 +8,13 @@ import 'package:parkpal/widgets/slot-container.dart';
 import 'package:provider/provider.dart';
 
 class DetailScreen extends StatelessWidget {
-  const DetailScreen({super.key});
+  String slotName;
+  DetailScreen({super.key, required this.slotName});
 
   @override
   Widget build(BuildContext context) {
     final slotProvider = Provider.of<SlotProvider>(context);
+    final dbProvider = Provider.of<DatabaseProvider>(context);
 
     return SafeArea(
       child: Scaffold(
@@ -36,7 +39,7 @@ class DetailScreen extends StatelessWidget {
                   height: 20,
                 ),
                 Text(
-                  "A-15",
+                  slotName,
                   style: Fontstyles.HeadlineStyle0(context),
                 ),
                 SizedBox(
@@ -107,7 +110,16 @@ class DetailScreen extends StatelessWidget {
         bottomNavigationBar: BottomAppBar(
           color: appcolor.backgroundColor,
           child: Center(
-            child: ReusableButtonII(price: "${slotProvider.price}", ontap: (){})
+            child: ReusableButtonII(price: "${slotProvider.price}", ontap: (){
+
+              // Save to Active bookings cart and update isbooked to true
+              Map<String,dynamic> activeBookings = {
+                "slotName" : slotName,
+                "price" : slotProvider.price,
+                "date" : DateTime.now().toIso8601String()
+              };
+              dbProvider.addToActiveBookings(activeBookings, context);
+            })
           ),
         ),
       ),
