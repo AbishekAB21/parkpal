@@ -1,0 +1,5 @@
+class DatabaseMethods {
+
+
+// Fetch Slots
+}
