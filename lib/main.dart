@@ -5,7 +5,6 @@ import 'package:parkpal/provider/bottom-nav-provider.dart';
 import 'package:parkpal/provider/database-provider.dart';
 import 'package:parkpal/provider/slot-provider.dart';
 import 'package:parkpal/screens/splash-screen.dart';
-import 'package:parkpal/widgets/bottom-nav.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
