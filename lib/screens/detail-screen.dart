@@ -115,7 +115,7 @@ class DetailScreen extends StatelessWidget {
           child: Center(
             child: ReusableButtonII(price: "${slotProvider.price}", ontap: (){
 
-              // Save to Active bookings cart and update isbooked to true
+              
               Map<String,dynamic> activeBookings = {
                 "slotName" : slotName,
                 "price" : slotProvider.price,

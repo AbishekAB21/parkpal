@@ -64,7 +64,7 @@ class DatabaseProvider extends ChangeNotifier {
           .get();
 
       if (slotQuery.docs.isNotEmpty) {
-        // Get the document ID of the slot to update
+       
         String slotDocId = slotQuery.docs.first.id;
 
         // Updating the isbooked field to true

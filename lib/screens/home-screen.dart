@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parkpal/provider/database-provider.dart';
 import 'package:parkpal/widgets/parking-slot-builder.dart';
-import 'package:parkpal/widgets/search-box.dart';
 import 'package:parkpal/utils/app-colors.dart';
 import 'package:parkpal/utils/fontstyles.dart';
 import 'package:provider/provider.dart';
