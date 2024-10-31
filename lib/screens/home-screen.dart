@@ -18,20 +18,23 @@ class HomeScreen extends StatelessWidget {
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
-              Image.asset(
-                "assets/logo.png",
-                height: 30,
-                width: 30,
-                color: appcolor.successColor,
-              ),
-              SizedBox(height: 5),
-              Text(
-                "ParkPal",
-                style: Fontstyles.logoTextstyle2(context),
-              ),
-              SizedBox(height: 20),
-              SearchBox(
-                onChanged: (value) {},
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/logo.png",
+                    height: 40,
+                    width: 40,
+                    color: appcolor.successColor,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    "ParkPal",
+                    style: Fontstyles.logoTextstyle2(context),
+                  ),
+                ],
               ),
               SizedBox(height: 20),
               Expanded(
@@ -40,17 +43,20 @@ class HomeScreen extends StatelessWidget {
                     return StreamBuilder<List<Map<String, dynamic>>>(
                       stream: provider.getSlotsStream(),
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return Center(child: CircularProgressIndicator());
                         } else if (snapshot.hasError) {
                           return Center(child: Text('Error loading slots'));
-                        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        } else if (!snapshot.hasData ||
+                            snapshot.data!.isEmpty) {
                           return Center(child: Text('No slots available'));
                         } else {
                           final slots = snapshot.data!;
                           return GridView.builder(
                             physics: BouncingScrollPhysics(),
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               childAspectRatio: 1,
                               crossAxisSpacing: 10,

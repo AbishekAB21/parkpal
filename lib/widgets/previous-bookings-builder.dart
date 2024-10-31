@@ -1,8 +1,10 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter/material.dart';
 import 'package:parkpal/provider/database-provider.dart';
 import 'package:parkpal/utils/app-colors.dart';
 import 'package:parkpal/utils/fontstyles.dart';
-import 'package:provider/provider.dart'; 
+import 'package:provider/provider.dart';
 
 class PreviousBookingsList extends StatelessWidget {
   const PreviousBookingsList({super.key});
@@ -23,7 +25,21 @@ class PreviousBookingsList extends StatelessWidget {
         }
 
         if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: Text('No previous bookings found.'));
+          return Center(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                "assets/empty.png",
+                height: 200,
+                width: 200,
+              ),
+              Text(
+                "No active bookings",
+                style: Fontstyles.ContentTextStyle2(context),
+              ),
+            ],
+          ));
         }
 
         final previousBookings = snapshot.data!;
@@ -33,7 +49,7 @@ class PreviousBookingsList extends StatelessWidget {
           itemBuilder: (context, index) {
             final booking = previousBookings[index];
             final slotName = booking['slotName'] ?? 'Unknown Slot';
-            final bookingDate = booking['date'] ?? 'Unknown Date'; 
+            final bookingDate = booking['date'] ?? 'Unknown Date';
 
             return Padding(
               padding: const EdgeInsets.only(left: 10.0, right: 10, top: 15),

@@ -28,7 +28,13 @@ class ActiveBookingsList extends StatelessWidget {
         }
 
         if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: Text("No active bookings"));
+          return Center(child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset("assets/empty.png", height: 200,width: 200,),
+              Text("No active bookings",style: Fontstyles.ContentTextStyle2(context),),
+            ],
+          ));
         }
 
         final activeBookings = snapshot.data!;

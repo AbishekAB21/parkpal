@@ -15,6 +15,7 @@ class SearchBox extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           color: appcolor.teritiaryColor),
       child: TextFormField(
+        style: Fontstyles.ButtonText1(context),
         onChanged: onChanged, 
         decoration: InputDecoration(
           isDense: true,
