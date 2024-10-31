@@ -16,4 +16,6 @@ class SlotProvider with ChangeNotifier{
       notifyListeners();
     }
   }
+
+  
 }

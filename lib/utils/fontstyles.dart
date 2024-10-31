@@ -58,6 +58,7 @@ class Fontstyles{
     return TextStyle(
       fontFamily: 'Poppins',
       fontSize: 12,
+      color: Colors.black,
       // color: Colors.grey.shade400,
       fontWeight: FontWeight.w400
     );

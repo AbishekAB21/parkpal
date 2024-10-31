@@ -15,4 +15,10 @@ class SharedPrefHelper {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setString(userEmailKey, getUserEmail);
   }
+
+  Future<String?> getUserEmail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    return prefs.getString(userEmailKey);
+  }
 }
