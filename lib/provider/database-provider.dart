@@ -11,4 +11,7 @@ class DatabaseProvider extends ChangeNotifier {
       return snapshot.docs.map((doc) => doc.data()).toList();
     });
   }
+
+// Book slots
+   
 }
