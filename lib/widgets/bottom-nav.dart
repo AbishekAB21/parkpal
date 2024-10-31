@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parkpal/provider/bottom-nav-provider.dart';
-import 'package:parkpal/screens/bookings-screen.dart';
+import 'package:parkpal/screens/history-screen.dart';
 import 'package:parkpal/screens/home-screen.dart';
 import 'package:parkpal/screens/profile-screen.dart';
 import 'package:parkpal/utils/app-colors.dart';
@@ -11,7 +11,7 @@ class BottomNavBar extends StatelessWidget {
 
   final pages = [
     HomeScreen(),
-    BookingsScreen(),
+    HistoryScreen(),
     ProfileScreen(),
   ];
 
