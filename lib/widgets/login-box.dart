@@ -42,6 +42,7 @@ class LogInBox extends StatelessWidget {
               prefixicon: Icon(Icons.mail_rounded),
               title: "Email",
               cntrlr: emailController,
+              isObscure: false,
             ),
             SizedBox(
               height: 10,
@@ -50,6 +51,7 @@ class LogInBox extends StatelessWidget {
               prefixicon: Icon(Icons.password_rounded),
               title: "Password",
               cntrlr: passwordController,
+              isObscure: true,
             ),
 
             // Button

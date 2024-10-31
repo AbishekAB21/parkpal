@@ -6,6 +6,7 @@ import 'package:parkpal/utils/fontstyles.dart';
 import 'package:parkpal/widgets/reusable-buttonII.dart';
 import 'package:parkpal/widgets/slot-container.dart';
 import 'package:provider/provider.dart';
+import 'package:random_string/random_string.dart';
 
 class DetailScreen extends StatelessWidget {
   String slotName;
@@ -116,7 +117,8 @@ class DetailScreen extends StatelessWidget {
               Map<String,dynamic> activeBookings = {
                 "slotName" : slotName,
                 "price" : slotProvider.price,
-                "date" : DateTime.now().toIso8601String()
+                "date" : DateTime.now().toIso8601String(),
+                "bookingId" : randomAlphaNumeric(10),
               };
               dbProvider.addToActiveBookings(activeBookings, context);
             })

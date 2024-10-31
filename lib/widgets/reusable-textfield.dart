@@ -8,8 +8,9 @@ class ReusableTextfield extends StatelessWidget {
   TextEditingController cntrlr;
   Icon prefixicon;
   String title;
+  bool isObscure;
 
-   ReusableTextfield({super.key, required this.prefixicon, required this.title, required this.cntrlr});
+   ReusableTextfield({super.key, required this.prefixicon, required this.title, required this.cntrlr, required this.isObscure});
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +24,7 @@ class ReusableTextfield extends StatelessWidget {
               child: TextFormField(
                 controller: cntrlr,
                 style: Fontstyles.ContentTextStyle3(context),
+                obscureText: isObscure,
                 decoration: InputDecoration(
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),

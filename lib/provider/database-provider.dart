@@ -46,8 +46,8 @@ class DatabaseProvider extends ChangeNotifier {
   }
 
 // Book slots
-  Future addToActiveBookings(Map<String, dynamic> activeBookings,
-      BuildContext context) async {
+  Future addToActiveBookings(
+      Map<String, dynamic> activeBookings, BuildContext context) async {
     try {
       await _firestore
           .collection('users')
@@ -56,12 +56,117 @@ class DatabaseProvider extends ChangeNotifier {
           .add(activeBookings);
       ReusableSnackbar()
           .showSnackbar(context, "Successfully booked!", appcolor.successColor);
+      String slotName = activeBookings["slotName"];
+      QuerySnapshot slotQuery = await _firestore
+          .collection('slots')
+          .where('slotName', isEqualTo: slotName)
+          .limit(1)
+          .get();
+
+      if (slotQuery.docs.isNotEmpty) {
+        // Get the document ID of the slot to update
+        String slotDocId = slotQuery.docs.first.id;
+
+        // Updating the isbooked field to true
+        await _firestore.collection('slots').doc(slotDocId).update({
+          'isbooked': true,
+        });
+      } else {
+        print("No slot found with the name $slotName");
+      }
     } catch (e) {
       print(e);
       ReusableSnackbar().showSnackbar(context, "$e", appcolor.errorColor);
     }
   }
 
-  // Get slots
-  
+  // Get active bookings
+  Stream<List<Map<String, dynamic>>> getActiveBookingsStream() {
+    return _firestore
+        .collection('users')
+        .doc(userId)
+        .collection('activeBookings')
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) => doc.data()).toList();
+    });
+  }
+
+  // Release slot
+  Future<void> releaseSlot(BuildContext context, String bookingId) async {
+    try {
+      if (bookingId.isEmpty) {
+        throw Exception("Booking ID cannot be empty");
+      }
+
+      print("Searching for booking with ID: $bookingId");
+
+      final querySnapshot = await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('activeBookings')
+          .where('bookingId', isEqualTo: bookingId)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        for (var doc in querySnapshot.docs) {
+          final bookingData = doc.data();
+          final slotName = bookingData['slotName'];
+
+          await _firestore
+              .collection('users')
+              .doc(userId)
+              .collection('previousBookings')
+              .doc(bookingId)
+              .set(bookingData);
+
+          print(
+              "Successfully saved booking data to previousBookings for ID: $bookingId");
+
+          await doc.reference.delete();
+          print("Successfully deleted booking with ID: $bookingId");
+
+          if (slotName != null) {
+            final slotQuery = await _firestore
+                .collection('slots')
+                .where('slotName', isEqualTo: slotName)
+                .limit(1)
+                .get();
+
+            if (slotQuery.docs.isNotEmpty) {
+              String slotDocId = slotQuery.docs.first.id;
+
+              await _firestore.collection('slots').doc(slotDocId).update({
+                'isbooked': false,
+              });
+              print("Successfully updated slot $slotName to not booked");
+            } else {
+              print("No slot found with the name $slotName");
+            }
+          } else {
+            print("No slot name found in the booking data");
+          }
+        }
+      } else {
+        print("No booking found with ID: $bookingId");
+        ReusableSnackbar().showSnackbar(context,
+            "No booking found with ID: $bookingId", appcolor.errorColor);
+      }
+    } catch (e) {
+      print("Error releasing booking: $e");
+      ReusableSnackbar().showSnackbar(context, "$e", appcolor.errorColor);
+    }
+  }
+
+  // Get previous bookings
+  Stream<List<Map<String, dynamic>>> getPreviousBookingsStream() {
+    return _firestore
+        .collection('users')
+        .doc(userId)
+        .collection('previousBookings')
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) => doc.data()).toList();
+    });
+  }
 }
