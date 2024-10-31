@@ -19,8 +19,12 @@ void main() async {
       ChangeNotifierProvider(
         create: (context) => BottomNavProvider(),
       ),
-      ChangeNotifierProvider(create: (context) => SlotProvider(),),
-      ChangeNotifierProvider(create: (context) => DatabaseProvider(),)
+      ChangeNotifierProvider(
+        create: (context) => SlotProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => DatabaseProvider(),
+      )
     ],
     child: const MyApp(),
   ));
@@ -31,6 +35,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: BottomNavBar());
+    return MaterialApp(debugShowCheckedModeBanner: false, home: SplashScreen());
   }
 }

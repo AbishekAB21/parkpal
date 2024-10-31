@@ -13,6 +13,7 @@ class HistoryScreen extends StatelessWidget {
         backgroundColor: appcolor.backgroundColor,
       
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           toolbarHeight: 20,
           backgroundColor: appcolor.backgroundColor,
           bottom: TabBar(

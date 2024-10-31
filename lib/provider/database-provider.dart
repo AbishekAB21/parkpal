@@ -13,5 +13,5 @@ class DatabaseProvider extends ChangeNotifier {
   }
 
 // Book slots
-   
+  
 }

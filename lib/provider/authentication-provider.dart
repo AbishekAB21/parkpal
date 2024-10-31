@@ -1,9 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:parkpal/db/database-methods.dart';
+import 'package:parkpal/db/shared_pref_helper.dart';
 import 'package:parkpal/screens/login-screen.dart';
 import 'package:parkpal/utils/app-colors.dart';
 import 'package:parkpal/widgets/bottom-nav.dart';
 import 'package:parkpal/widgets/reusable-snackbar.dart';
+import 'package:random_string/random_string.dart';
 
 class AuthenticationProvider with ChangeNotifier {
   final _auth = FirebaseAuth.instance;
@@ -14,6 +17,25 @@ class AuthenticationProvider with ChangeNotifier {
     try {
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
+
+      // Saving user details to firebase
+      String id = randomAlphaNumeric(10);
+      Map<String, dynamic> addUserInfo = {
+        "email": email,
+        "id": id,
+      };
+
+      DatabaseMethods().addUserDetails(addUserInfo, id);
+
+      // Saving details to local storage
+      await SharedPrefHelper().saveUserEmail(email);
+      await SharedPrefHelper().saveUserId(id);
+
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LoginScreen(),
+          ));
     } catch (e) {
       print(e);
       ReusableSnackbar()
@@ -31,8 +53,8 @@ class AuthenticationProvider with ChangeNotifier {
           MaterialPageRoute(
             builder: (context) => BottomNavBar(),
           ));
-      ReusableSnackbar()
-          .showSnackbar(context, "Signed in successfully!", appcolor.successColor);
+      ReusableSnackbar().showSnackbar(
+          context, "Signed in successfully!", appcolor.successColor);
     } catch (e) {
       print(e);
       ReusableSnackbar()
