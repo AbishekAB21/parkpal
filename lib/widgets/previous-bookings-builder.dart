@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:parkpal/provider/database-provider.dart';
 import 'package:parkpal/utils/app-colors.dart';
 import 'package:parkpal/utils/fontstyles.dart';
+import 'package:parkpal/widgets/loading-lottie.dart';
 import 'package:provider/provider.dart';
 
 class PreviousBookingsList extends StatelessWidget {
@@ -17,7 +18,7 @@ class PreviousBookingsList extends StatelessWidget {
       stream: databaseProvider.getPreviousBookingsStream(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return LoadingLottie();
         }
 
         if (snapshot.hasError) {

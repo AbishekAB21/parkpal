@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parkpal/provider/database-provider.dart';
+import 'package:parkpal/widgets/loading-lottie.dart';
 import 'package:parkpal/widgets/parking-slot-builder.dart';
 import 'package:parkpal/utils/app-colors.dart';
 import 'package:parkpal/utils/fontstyles.dart';
@@ -44,7 +45,7 @@ class HomeScreen extends StatelessWidget {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return Center(child: CircularProgressIndicator());
+                          return LoadingLottie();
                         } else if (snapshot.hasError) {
                           return Center(child: Text('Error loading slots'));
                         } else if (!snapshot.hasData ||

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:parkpal/provider/database-provider.dart';
 import 'package:parkpal/utils/app-colors.dart';
 import 'package:parkpal/utils/fontstyles.dart';
+import 'package:parkpal/widgets/loading-lottie.dart';
 import 'package:provider/provider.dart';
 
 class ActiveBookingsList extends StatelessWidget {
@@ -16,11 +17,7 @@ class ActiveBookingsList extends StatelessWidget {
       stream: _dbProvider.getActiveBookingsStream(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: CircularProgressIndicator(
-              color: appcolor.successColor,
-            ),
-          );
+          return LoadingLottie();
         }
 
         if (snapshot.hasError) {
