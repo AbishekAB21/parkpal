@@ -11,6 +11,7 @@ class DatabaseProvider extends ChangeNotifier {
     initializeUserId();
   }
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final userUID = FirebaseAuth.instance.currentUser!.uid;
 
   String? email;
   String? userId;
@@ -47,11 +48,12 @@ class DatabaseProvider extends ChangeNotifier {
 
 // Book slots
   Future addToActiveBookings(
+      
       Map<String, dynamic> activeBookings, BuildContext context) async {
     try {
       await _firestore
           .collection('users')
-          .doc(userId)
+          .doc(userUID)
           .collection('activeBookings')
           .add(activeBookings);
       ReusableSnackbar()
@@ -84,7 +86,7 @@ class DatabaseProvider extends ChangeNotifier {
   Stream<List<Map<String, dynamic>>> getActiveBookingsStream() {
     return _firestore
         .collection('users')
-        .doc(userId)
+        .doc(userUID)
         .collection('activeBookings')
         .snapshots()
         .map((snapshot) {
@@ -103,7 +105,7 @@ class DatabaseProvider extends ChangeNotifier {
 
       final querySnapshot = await _firestore
           .collection('users')
-          .doc(userId)
+          .doc(userUID)
           .collection('activeBookings')
           .where('bookingId', isEqualTo: bookingId)
           .get();
@@ -115,7 +117,7 @@ class DatabaseProvider extends ChangeNotifier {
 
           await _firestore
               .collection('users')
-              .doc(userId)
+              .doc(userUID)
               .collection('previousBookings')
               .doc(bookingId)
               .set(bookingData);
@@ -162,7 +164,7 @@ class DatabaseProvider extends ChangeNotifier {
   Stream<List<Map<String, dynamic>>> getPreviousBookingsStream() {
     return _firestore
         .collection('users')
-        .doc(userId)
+        .doc(userUID)
         .collection('previousBookings')
         .snapshots()
         .map((snapshot) {
