@@ -36,7 +36,7 @@ class PreviousBookingsList extends StatelessWidget {
                 width: 200,
               ),
               Text(
-                "No active bookings",
+                "No previous bookings",
                 style: Fontstyles.ContentTextStyle2(context),
               ),
             ],
