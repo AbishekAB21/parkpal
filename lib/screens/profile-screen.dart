@@ -34,7 +34,8 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 Text(
                   "Signed in as : ${_dbProvider.email}",
-                  style: Fontstyles.HeadlineStyle2(context),
+                  style: Fontstyles.HeadlineStyle3(context),
+                  overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(
                   height: 20,
