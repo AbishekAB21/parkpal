@@ -86,7 +86,8 @@ class LogInBox extends StatelessWidget {
                   }
                 },
               ),
-              // Divider and Sign-up Link
+              
+              // Divider 
               SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
