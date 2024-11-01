@@ -78,8 +78,7 @@ class SignUpBox extends StatelessWidget {
                     emailController.clear();
                     passwordController.clear();
                     confirmPasswordController.clear();
-                    ReusableSnackbar().showSnackbar(
-                        context, "Account created! - You can now Sign in!", appcolor.successColor);
+                    
                   } else {
                     ReusableSnackbar().showSnackbar(
                         context, "Passwords don't match", appcolor.errorColor);

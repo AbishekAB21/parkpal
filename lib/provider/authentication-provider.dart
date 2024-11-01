@@ -31,6 +31,9 @@ class AuthenticationProvider with ChangeNotifier {
       await SharedPrefHelper().saveUserEmail(email);
       await SharedPrefHelper().saveUserId(id);
 
+      ReusableSnackbar().showSnackbar(context,
+          "Account created! - You can now Sign in!", appcolor.successColor);
+
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
