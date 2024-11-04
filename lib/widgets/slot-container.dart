@@ -4,23 +4,38 @@ import 'package:flutter/material.dart';
 import 'package:parkpal/utils/app-colors.dart';
 import 'package:parkpal/utils/fontstyles.dart';
 
-class SlotTiles extends StatelessWidget {
-  String time;
-  Function()? ontap;
-  SlotTiles({super.key, required this.time, required this.ontap});
+class PriceInfoTile extends StatelessWidget {
+  String timeDetails;
+  String price;
+   PriceInfoTile({super.key, required this.timeDetails, required this.price});
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: ontap,
+    return Material(
+      elevation: 2,
+      borderRadius: BorderRadius.circular(10),
       child: Container(
-        padding: EdgeInsets.all(10),
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         decoration: BoxDecoration(
-            color: appcolor.teritiaryColor,
-            borderRadius: BorderRadius.circular(5)),
-        child: Text(
-          time,
-          style: Fontstyles.ContentTextStyle2(context),
+            color: appcolor.primaryColor,
+            borderRadius: BorderRadius.circular(10)),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              timeDetails,
+              style: Fontstyles.HeadlineStyle3(context),
+            ),
+            Text(
+              price,
+              style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 14,
+                  color: appcolor.successColor,
+                  fontWeight: FontWeight.w700),
+            ),
+          ],
         ),
       ),
     );

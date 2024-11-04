@@ -14,7 +14,7 @@ class ReusableButtonII extends StatelessWidget {
     return GestureDetector(
       onTap: () {
 
-        // Save data to firebase
+       
 
         // Showing Animation
         showDialog(
@@ -53,7 +53,7 @@ class ReusableButtonII extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            "Pay \$$price and Book",
+            price,
             style: Fontstyles.ButtonTextLarge(context),
           ),
         ),

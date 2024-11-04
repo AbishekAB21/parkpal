@@ -46,42 +46,6 @@ class DatabaseProvider extends ChangeNotifier {
     });
   }
 
-// Book slots
-  Future addToActiveBookings(
-      
-      Map<String, dynamic> activeBookings, BuildContext context) async {
-    try {
-      await _firestore
-          .collection('users')
-          .doc(userUID)
-          .collection('activeBookings')
-          .add(activeBookings);
-      ReusableSnackbar()
-          .showSnackbar(context, "Successfully booked!", appcolor.successColor);
-      String slotName = activeBookings["slotName"];
-      QuerySnapshot slotQuery = await _firestore
-          .collection('slots')
-          .where('slotName', isEqualTo: slotName)
-          .limit(1)
-          .get();
-
-      if (slotQuery.docs.isNotEmpty) {
-       
-        String slotDocId = slotQuery.docs.first.id;
-
-        // Updating the isbooked field to true
-        await _firestore.collection('slots').doc(slotDocId).update({
-          'isbooked': true,
-        });
-      } else {
-        print("No slot found with the name $slotName");
-      }
-    } catch (e) {
-      print(e);
-      ReusableSnackbar().showSnackbar(context, "$e", appcolor.errorColor);
-    }
-  }
-
   // Get active bookings
   Stream<List<Map<String, dynamic>>> getActiveBookingsStream() {
     return _firestore
@@ -94,72 +58,6 @@ class DatabaseProvider extends ChangeNotifier {
     });
   }
 
-  // Release slot
-  Future<void> releaseSlot(BuildContext context, String bookingId) async {
-    try {
-      if (bookingId.isEmpty) {
-        throw Exception("Booking ID cannot be empty");
-      }
-
-      print("Searching for booking with ID: $bookingId");
-
-      final querySnapshot = await _firestore
-          .collection('users')
-          .doc(userUID)
-          .collection('activeBookings')
-          .where('bookingId', isEqualTo: bookingId)
-          .get();
-
-      if (querySnapshot.docs.isNotEmpty) {
-        for (var doc in querySnapshot.docs) {
-          final bookingData = doc.data();
-          final slotName = bookingData['slotName'];
-
-          await _firestore
-              .collection('users')
-              .doc(userUID)
-              .collection('previousBookings')
-              .doc(bookingId)
-              .set(bookingData);
-
-          print(
-              "Successfully saved booking data to previousBookings for ID: $bookingId");
-
-          await doc.reference.delete();
-          print("Successfully deleted booking with ID: $bookingId");
-
-          if (slotName != null) {
-            final slotQuery = await _firestore
-                .collection('slots')
-                .where('slotName', isEqualTo: slotName)
-                .limit(1)
-                .get();
-
-            if (slotQuery.docs.isNotEmpty) {
-              String slotDocId = slotQuery.docs.first.id;
-
-              await _firestore.collection('slots').doc(slotDocId).update({
-                'isbooked': false,
-              });
-              print("Successfully updated slot $slotName to not booked");
-            } else {
-              print("No slot found with the name $slotName");
-            }
-          } else {
-            print("No slot name found in the booking data");
-          }
-        }
-      } else {
-        print("No booking found with ID: $bookingId");
-        ReusableSnackbar().showSnackbar(context,
-            "No booking found with ID: $bookingId", appcolor.errorColor);
-      }
-    } catch (e) {
-      print("Error releasing booking: $e");
-      ReusableSnackbar().showSnackbar(context, "$e", appcolor.errorColor);
-    }
-  }
-
   // Get previous bookings
   Stream<List<Map<String, dynamic>>> getPreviousBookingsStream() {
     return _firestore
@@ -170,5 +68,131 @@ class DatabaseProvider extends ChangeNotifier {
         .map((snapshot) {
       return snapshot.docs.map((doc) => doc.data()).toList();
     });
+  }
+
+  //-------------- NEW METHODS --------------
+
+  // Book slots
+  Future<void> bookSlots(
+      Map<String, dynamic> activeBookingData, BuildContext context) async {
+    try {
+     
+      final bookingTime = Timestamp.now();
+      activeBookingData['bookingTime'] = bookingTime;
+
+      
+      await _firestore
+          .collection('users')
+          .doc(userUID)
+          .collection('activeBookings')
+          .add(activeBookingData);
+
+      
+      String slotName = activeBookingData["slotName"];
+      QuerySnapshot slotQuery = await _firestore
+          .collection('slots')
+          .where('slotName', isEqualTo: slotName)
+          .limit(1)
+          .get();
+
+      if (slotQuery.docs.isNotEmpty) {
+        String slotDocId = slotQuery.docs.first.id;
+        await _firestore.collection('slots').doc(slotDocId).update({
+          'isbooked': true,
+        });
+      }
+
+      
+      ReusableSnackbar()
+          .showSnackbar(context, "Successfully booked!", appcolor.successColor);
+    } catch (e) {
+      print(e);
+      ReusableSnackbar().showSnackbar(context, "$e", appcolor.errorColor);
+    }
+  }
+
+  // Release slot and calculate cost
+  Future<void> freeUpSlots(BuildContext context, String bookingId) async {
+    try {
+      
+      final querySnapshot = await _firestore
+          .collection('users')
+          .doc(userUID)
+          .collection('activeBookings')
+          .where('bookingId', isEqualTo: bookingId)
+          .limit(1)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        var doc = querySnapshot.docs.first;
+        final bookingData = doc.data();
+
+        
+        final bookingTime = (bookingData['bookingTime'] as Timestamp).toDate();
+        final releaseTime = DateTime.now();
+        final durationInMinutes = releaseTime.difference(bookingTime).inMinutes;
+
+        double cost = 0.0;
+        if (durationInMinutes > 10) {
+          final exactHours = durationInMinutes / 60;
+          cost = exactHours * 100; 
+        }
+
+        
+        bookingData['releaseTime'] = Timestamp.fromDate(releaseTime);
+        bookingData['duration'] = durationInMinutes;
+        bookingData['cost'] = cost;
+
+        
+        await _firestore
+            .collection('users')
+            .doc(userUID)
+            .collection('previousBookings')
+            .doc(bookingId)
+            .set(bookingData);
+
+        
+        await doc.reference.delete();
+
+       
+        String slotName = bookingData['slotName'];
+        QuerySnapshot slotQuery = await _firestore
+            .collection('slots')
+            .where('slotName', isEqualTo: slotName)
+            .limit(1)
+            .get();
+
+        if (slotQuery.docs.isNotEmpty) {
+          String slotDocId = slotQuery.docs.first.id;
+          await _firestore.collection('slots').doc(slotDocId).update({
+            'isbooked': false,
+          });
+        }
+
+        
+        ReusableSnackbar().showSnackbar(
+            context,
+            "Slot released. Total cost: \$${cost.toStringAsFixed(2)}",
+            appcolor.successColor);
+      } else {
+        ReusableSnackbar().showSnackbar(context,
+            "No booking found with ID: $bookingId", appcolor.errorColor);
+      }
+    } catch (e) {
+      print("Error releasing slot: $e");
+      ReusableSnackbar().showSnackbar(context, "$e", appcolor.errorColor);
+    }
+  }
+
+
+  
+  double calculateCost(DateTime bookingTime, DateTime releaseTime) {
+    final durationInMinutes = releaseTime.difference(bookingTime).inMinutes;
+    double cost = 0.0;
+    if (durationInMinutes > 10) {
+      final exactHours = durationInMinutes / 60;
+      cost = exactHours * 100; 
+    }
+    return cost;
   }
 }
